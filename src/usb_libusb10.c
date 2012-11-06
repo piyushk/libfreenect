@@ -573,8 +573,10 @@ FN_INTERNAL int fnusb_control(fnusb_dev *dev, uint8_t bmRequestType, uint8_t bRe
   int length = libusb_control_transfer(dev->dev, bmRequestType, bRequest, wValue, wIndex, data, wLength, 0);
   if (bmRequestType == 0xc0) {
     FN_FLOOD("Length of returned packet: %d", length);
-    for(int i = 0; i < length; i ++) {
+    int i = 0;
+    while (i < length) {
       FN_FLOOD("  %d", (int)data[i]);
+      i++;
     }
   }
   return length;
