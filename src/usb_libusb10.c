@@ -570,7 +570,14 @@ FN_INTERNAL int fnusb_stop_iso(fnusb_dev *dev, fnusb_isoc_stream *strm)
 
 FN_INTERNAL int fnusb_control(fnusb_dev *dev, uint8_t bmRequestType, uint8_t bRequest, uint16_t wValue, uint16_t wIndex, uint8_t *data, uint16_t wLength)
 {
-	return libusb_control_transfer(dev->dev, bmRequestType, bRequest, wValue, wIndex, data, wLength, 0);
+  int length = libusb_control_transfer(dev->dev, bmRequestType, bRequest, wValue, wIndex, data, wLength, 0);
+  if (bmRequestType == 0xc0) {
+    FN_FLOOD("Length of returned packet: %d", length);
+    for(int i = 0; i < length; i ++) {
+      FN_FLOOD("  %d", (int)data[i]);
+    }
+  }
+  return length;
 }
 
 #ifdef BUILD_AUDIO
