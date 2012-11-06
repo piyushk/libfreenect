@@ -570,8 +570,8 @@ FN_INTERNAL int fnusb_stop_iso(fnusb_dev *dev, fnusb_isoc_stream *strm)
 
 FN_INTERNAL int fnusb_control(fnusb_dev *dev, uint8_t bmRequestType, uint8_t bRequest, uint16_t wValue, uint16_t wIndex, uint8_t *data, uint16_t wLength)
 {
-  if (wLength > 16)
-    wLength = 16;
+  /* if (wLength > 16) */
+  /*   wLength = 16; */
   int length = libusb_control_transfer(dev->dev, bmRequestType, bRequest, wValue, wIndex, data, wLength, 0);
   if (bmRequestType == 0xc0) {
     printf("Length of returned packet: %d, expected length: %d\n", length, wLength);
